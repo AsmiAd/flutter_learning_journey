@@ -3,8 +3,8 @@ import 'package:figma_task_one/widgets/objective_item.dart';
 import 'package:figma_task_one/widgets/section_tile.dart';
 import 'package:flutter/material.dart';
 
-class CourseDetailScreen extends StatelessWidget {
-  const CourseDetailScreen({super.key});
+class SyllabusDetailScreen extends StatelessWidget {
+  const SyllabusDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

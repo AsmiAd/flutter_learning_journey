@@ -1,3 +1,4 @@
+import 'package:figma_task_one/screens/university_listing_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -123,7 +124,9 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      HomeScreen();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[900],
                       shape: RoundedRectangleBorder(

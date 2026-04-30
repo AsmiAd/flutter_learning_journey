@@ -1,3 +1,4 @@
+import 'package:figma_task_one/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Scaffold(
         body: Center(
-          child: Text('Hello, Figma Task One!'),
+          child: LoginScreen(),
         ),
       ),
     );
