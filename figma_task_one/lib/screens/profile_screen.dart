@@ -1,113 +1,290 @@
+import 'package:figma_task_one/screens/home_screen.dart';
+import 'package:figma_task_one/screens/university_listing_screen.dart';
+import 'package:figma_task_one/theme_constants.dart';
+import 'package:figma_task_one/widgets/custom_bottom_nav.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _notifications = true;
+  bool _darkMode = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff3f4f6),
+      backgroundColor: shBackground,
 
-      bottomNavigationBar: BottomNavigationBar(
+      // ── Bottom nav ─────────────────────────────────────────────────────
+      bottomNavigationBar: CustomBottomNav(
         currentIndex: 2,
-        selectedItemColor: Colors.blue,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Browse"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
+        onTap: (i) {
+          if (i == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const HomeScreen()),
+            );
+          } else if (i == 1) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => const UniversityListingScreen()),
+            );
+          }
+        },
       ),
 
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              /// Header
+              // ── App bar ────────────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text("StudyHub Nepal",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    CircleAvatar(radius: 16, backgroundColor: Colors.grey),
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(Icons.menu, color: shDarkText),
+                        SizedBox(width: 8),
+                        Text(
+                          'StudyHub Nepal',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: shPrimaryBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Colors.grey.shade300,
+                    ),
                   ],
                 ),
               ),
 
-              /// Profile
-              Column(
-                children: const [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 36,
-                      backgroundColor: Colors.blue,
+              const SizedBox(height: 24),
+
+              // ── Avatar + name ──────────────────────────────────────────
+              Center(
+                child: Stack(
+                  children: [
+                    // Outer white ring
+                    Container(
+                      width: 92,
+                      height: 92,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border:
+                            Border.all(color: shPrimaryBlue, width: 3),
+                        color: Colors.white,
+                      ),
+                      child: const CircleAvatar(
+                        radius: 43,
+                        backgroundColor: shPrimaryBlue,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Aayush Shrestha",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text("LEVEL 12 • SCIENCE",
-                      style: TextStyle(color: Colors.blue, fontSize: 12)),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 8),
-                    child: Text(
-                      "Aspiring Medical Student at IOE, Kathmandu. Focused on Organic Chemistry.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 13, color: Colors.black54),
+                    // Edit badge
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 26,
+                        height: 26,
+                        decoration: BoxDecoration(
+                          color: shPrimaryBlue,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(Icons.edit,
+                            color: Colors.white, size: 13),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
-              /// Stats
+              const SizedBox(height: 12),
+
+              const Center(
+                child: Text(
+                  'Aayush Shrestha',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: shDarkText,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 6),
+
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: shLightBlue,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'LEVEL 12 • SCIENCE',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: shPrimaryBlue,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Center(
+                  child: Text(
+                    'Aspiring Medical Student at IOE, Kathmandu. Focused on Organic Chemistry.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: shSubtitleText,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ── Stats ──────────────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const [
-                    StatCard(title: "42", subtitle: "NOTES READ"),
-                    StatCard(title: "12", subtitle: "SYLLABI CHECKED"),
+                    Expanded(
+                      child: _StatCard(value: '42', label: 'NOTES READ'),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: _StatCard(
+                          value: '12', label: 'SYLLABI CHECKED'),
+                    ),
                   ],
                 ),
               ),
 
-              /// Saved Notes
-              sectionTitle("Saved Notes", action: "View All"),
-              noteCard("PHYSICS", "Thermodynamics: Laws and Applications",
-                  "Updated 2 days ago"),
-              noteCard("BIOLOGY", "Cellular Respiration - Krebs Cycle",
-                  "Updated 1 week ago"),
+              const SizedBox(height: 24),
 
-              /// Recent Syllabi
-              sectionTitle("Recent Syllabi"),
-              listItem("NEB Grade 12 - Chemistry"),
-              listItem("MBBS Entrance (IOM)"),
+              // ── Saved Notes ────────────────────────────────────────────
+              _sectionHeader('Saved Notes', action: 'View All'),
 
-              /// Settings
-              sectionTitle("App Settings"),
-              switchItem("Notifications", true),
-              switchItem("Dark Mode", false),
-              listItem("Language (Nepali)"),
+              _noteCard(
+                tag: 'PHYSICS',
+                title: 'Thermodynamics: Laws and Applications',
+                subtitle: 'Updated 2 days ago',
+              ),
+              _noteCard(
+                tag: 'BIOLOGY',
+                title: 'Cellular Respiration - Krebs Cycle',
+                subtitle: 'Updated 1 week ago',
+              ),
 
-              /// Logout
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade200,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+              const SizedBox(height: 8),
+
+              // ── Recent Syllabi ─────────────────────────────────────────
+              _sectionHeader('Recent Syllabi'),
+
+              _syllabusItem(
+                title: 'NEB Grade 12 - Chemistry',
+                subtitle: '2080/2081 Revision',
+              ),
+              _syllabusItem(
+                title: 'MBBS Entrance (IOM) Syllabus',
+                subtitle: 'General Knowledge & Science',
+              ),
+
+              const SizedBox(height: 8),
+
+              // ── App Settings ───────────────────────────────────────────
+              _sectionHeader('App Settings'),
+
+              // Notifications
+              _switchTile(
+                icon: Icons.notifications_outlined,
+                title: 'Notifications',
+                value: _notifications,
+                onChanged: (v) => setState(() => _notifications = v),
+              ),
+
+              // Dark Mode
+              _switchTile(
+                icon: Icons.dark_mode_outlined,
+                title: 'Dark Mode',
+                value: _darkMode,
+                onChanged: (v) => setState(() => _darkMode = v),
+              ),
+
+              // Language
+              ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                leading: const Icon(Icons.translate_outlined,
+                    color: shSubtitleText, size: 22),
+                title: const Text(
+                  'Language (Nepali)',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: shDarkText,
                   ),
-                  onPressed: () {},
-                  child: const Text("Logout"),
+                ),
+                trailing: const Icon(Icons.chevron_right,
+                    color: shGrey, size: 20),
+                onTap: () {},
+              ),
+
+              const SizedBox(height: 16),
+
+              // ── Logout ─────────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.logout, size: 18),
+                    label: const Text(
+                      'Logout',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFE4E4),
+                      foregroundColor: Colors.red.shade700,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
                 ),
               ),
+
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -115,95 +292,193 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// Section Title
-  static Widget sectionTitle(String title, {String? action}) {
+  // ── Helpers ──────────────────────────────────────────────────────────────
+
+  Widget _sectionHeader(String title, {String? action}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: shDarkText,
+            ),
+          ),
           if (action != null)
-            Text(action, style: const TextStyle(color: Colors.blue)),
+            Text(
+              action,
+              style: const TextStyle(
+                color: shPrimaryBlue,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            ),
         ],
       ),
     );
   }
 
-  /// Note Card
-  static Widget noteCard(String tag, String title, String subtitle) {
+  Widget _noteCard({
+    required String tag,
+    required String title,
+    required String subtitle,
+  }) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+      padding: const EdgeInsets.all(14),
+      decoration: shCardDecoration,
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(tag,
-              style: const TextStyle(fontSize: 10, color: Colors.blue)),
-          const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text(subtitle,
-              style: const TextStyle(fontSize: 12, color: Colors.black54)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: shLightBlue,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    tag,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: shPrimaryBlue,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: shDarkText,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                      fontSize: 12, color: shSubtitleText),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.bookmark, color: shPrimaryBlue, size: 20),
         ],
       ),
     );
   }
 
-  /// List Item
-  static Widget listItem(String title) {
-    return ListTile(
-      title: Text(title),
-      trailing: const Icon(Icons.chevron_right),
+  Widget _syllabusItem({required String title, required String subtitle}) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: shCardDecoration,
+      child: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: shLightBlue,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Icon(Icons.description_outlined,
+                color: shPrimaryBlue, size: 18),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: shDarkText,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                      fontSize: 12, color: shSubtitleText),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: shGrey, size: 20),
+        ],
+      ),
     );
   }
 
-  /// Switch Item
-  static Widget switchItem(String title, bool value) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return SwitchListTile(
-          title: Text(title),
-          value: value,
-          onChanged: (val) {
-            setState(() {});
-          },
-        );
-      },
+  Widget _switchTile({
+    required IconData icon,
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Icon(icon, color: shSubtitleText, size: 22),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 14, color: shDarkText),
+            ),
+          ),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: shPrimaryBlue,
+          ),
+        ],
+      ),
     );
   }
 }
 
-/// Stat Card Widget
-class StatCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
+// ── Stat card ─────────────────────────────────────────────────────────────────
+class _StatCard extends StatelessWidget {
+  final String value;
+  final String label;
 
-  const StatCard({super.key, required this.title, required this.subtitle});
+  const _StatCard({required this.value, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 140,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: shCardDecoration,
       child: Column(
         children: [
-          Text(title,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          Text(
+            value,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: shPrimaryBlue,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(subtitle,
-              style: const TextStyle(fontSize: 12, color: Colors.black54)),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 11, color: shGrey),
+          ),
         ],
       ),
     );

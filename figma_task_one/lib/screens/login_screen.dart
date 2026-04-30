@@ -1,74 +1,107 @@
-import 'package:figma_task_one/screens/university_listing_screen.dart';
+import 'package:figma_task_one/screens/home_screen.dart';
+import 'package:figma_task_one/theme_constants.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _obscurePassword = true;
+  bool _keepSignedIn = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
+      backgroundColor: const Color(0xFFF0F2F8),
       body: Center(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
           child: Container(
-            width: 350,
-            padding: const EdgeInsets.all(20),
+            width: double.infinity,
+            constraints: const BoxConstraints(maxWidth: 400),
+            padding: const EdgeInsets.all(28),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //logo and title
+                // ── Logo ──────────────────────────────────────────────────
                 Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      Icon(Icons.school, color: Colors.blue),
+                      Icon(Icons.school, color: shPrimaryBlue, size: 26),
                       SizedBox(width: 8),
                       Text(
                         'StudyHub Nepal',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: shPrimaryBlue,
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 32),
 
-                //welcome text
-                const Text(
-                  'Welcome Back!',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                // ── Heading ───────────────────────────────────────────────
+                const Center(
+                  child: Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: shDarkText,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Center(
+                  child: Text(
+                    'Please enter your academic credentials',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: shSubtitleText, fontSize: 14),
+                  ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 32),
 
+                // ── Email field ───────────────────────────────────────────
                 const Text(
-                  'Please enter your academic credentials',
-                  style: TextStyle(color: Colors.grey),
+                  'Academic Email',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: shDarkText,
+                  ),
                 ),
-
-                const SizedBox(height: 20),
-
-                //email field
-                const Text("Academic Email"),
-
                 const SizedBox(height: 8),
-
                 TextField(
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'name@college.edu.np',
-                    prefix: const Icon(Icons.email_outlined),
+                    hintStyle: const TextStyle(color: shGrey, fontSize: 14),
+                    prefixIcon: const Icon(Icons.email_outlined,
+                        color: shGrey, size: 20),
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: const Color(0xFFF4F6FA),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -78,28 +111,51 @@ class LoginScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                //password field
+                // ── Password field ────────────────────────────────────────
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    Text("Password"),
                     Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: Colors.blue),
+                      'Password',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: shDarkText,
+                      ),
+                    ),
+                    Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: shPrimaryBlue,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 8),
-
-                //password text field
                 TextField(
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    prefix: const Icon(Icons.lock_outline),
-                    suffix: const Icon(Icons.visibility_outlined),
+                    hintText: '••••••••',
+                    hintStyle: const TextStyle(color: shGrey, fontSize: 14),
+                    prefixIcon: const Icon(Icons.lock_outline,
+                        color: shGrey, size: 20),
+                    suffixIcon: GestureDetector(
+                      onTap: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: shGrey,
+                        size: 20,
+                      ),
+                    ),
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: const Color(0xFFF4F6FA),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -107,83 +163,157 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
-                //check box
+                // ── Keep signed in ────────────────────────────────────────
                 Row(
-                  children: const [
-                    Checkbox(value: false, onChanged: null),
-                    Text("Keep me signed in for 30 days"),
+                  children: [
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Checkbox(
+                        value: _keepSignedIn,
+                        onChanged: (v) =>
+                            setState(() => _keepSignedIn = v ?? false),
+                        activeColor: shPrimaryBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Keep me signed in for 30 days',
+                      style: TextStyle(fontSize: 13, color: shSubtitleText),
+                    ),
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
-                //login button
+                // ── Login button ──────────────────────────────────────────
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
+                  height: 52,
                   child: ElevatedButton(
                     onPressed: () {
-                      HomeScreen();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HomeScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[900],
+                      backgroundColor: shPrimaryBlue,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                       ),
+                      elevation: 0,
                     ),
-                    child: const Text("Login to Workspace"),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login to Workspace',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Icon(Icons.arrow_forward, size: 18),
+                      ],
+                    ),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
-                //divider
+                // ── Divider ───────────────────────────────────────────────
                 Row(
                   children: const [
-                    Expanded(child: Divider()),
+                    Expanded(child: Divider(color: Color(0xFFE0E0E0))),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("OR CONTINUE WITH"),
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'OR CONTINUE WITH',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: shGrey,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                     ),
-                    Expanded(child: Divider()),
+                    Expanded(child: Divider(color: Color(0xFFE0E0E0))),
                   ],
                 ),
 
                 const SizedBox(height: 20),
 
-                //google and apple sign in buttons
+                // ── Social buttons ────────────────────────────────────────
                 Row(
                   children: [
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () {},
-                        child: const Text("Google"),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: shDarkText,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: const BorderSide(color: Color(0xFFE0E0E0)),
+                        ),
+                        child: const Text(
+                          'Google',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () {},
-                        child: const Text("Apple"),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: shDarkText,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: const BorderSide(color: Color(0xFFE0E0E0)),
+                        ),
+                        child: const Text(
+                          'Apple',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 28),
 
-                //sign up
+                // ── Sign up link ──────────────────────────────────────────
                 Center(
                   child: RichText(
                     text: const TextSpan(
-                      text: "New to the platform ? ",
-                      style: TextStyle(color: Colors.grey),
+                      text: 'New to the platform?  ',
+                      style: TextStyle(color: shSubtitleText, fontSize: 13),
                       children: [
                         TextSpan(
-                          text: "Create an account",
-                          style: TextStyle(color: Colors.blue),
+                          text: 'Create an account',
+                          style: TextStyle(
+                            color: shPrimaryBlue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

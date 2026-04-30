@@ -1,3 +1,7 @@
+import 'package:figma_task_one/screens/profile_screen.dart';
+import 'package:figma_task_one/screens/university_listing_screen.dart';
+import 'package:figma_task_one/theme_constants.dart';
+import 'package:figma_task_one/widgets/custom_bottom_nav.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,215 +10,444 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: shBackground,
 
-      //floating search button
+      // ── Floating search button ─────────────────────────────────────────
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: const Icon(Icons.search),
+        backgroundColor: shPrimaryBlue,
+        child: const Icon(Icons.search, color: Colors.white),
       ),
 
-      //need to make a common bottom navigation for all screens, so it can be easily switched between them
-
-      //-bottom navigation
-      bottomNavigationBar: BottomNavigationBar(
+      // ── Bottom navigation ──────────────────────────────────────────────
+      bottomNavigationBar: CustomBottomNav(
         currentIndex: 0,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "HOME"),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: "BROWSE"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "PROFILE"),
-        ],
+        onTap: (i) {
+          if (i == 1) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const UniversityListingScreen()),
+            );
+          } else if (i == 2) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const ProfileScreen()),
+            );
+          }
+        },
       ),
 
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              //top bar
-              Row(
+            // ── App bar ──────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Row(
-                    children: [
-                      Icon(Icons.menu),
+                    children: const [
+                      Icon(Icons.menu, color: shDarkText),
                       SizedBox(width: 8),
                       Text(
-                        "StudyHub Nepal",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        'StudyHub Nepal',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: shPrimaryBlue,
+                        ),
                       ),
                     ],
                   ),
-                  CircleAvatar(radius: 16),
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.grey.shade300,
+                  ),
                 ],
               ),
+            ),
 
-              const SizedBox(height: 20),
+            // ── Scrollable body ──────────────────────────────────────────
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
 
-              //welcome text
-              const Text(
-                "WELCOME BACK",
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "Your Academic\nCurator.",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              ),
+                  // Welcome text
+                  const Text(
+                    'WELCOME BACK',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: shGrey,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Your Academic\nCurator.',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: shDarkText,
+                      height: 1.2,
+                    ),
+                  ),
 
-              const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-              //expanded scrollable 
-              Expanded(
-                child: ListView(
-                  children: [
-
-                    //featured card
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Colors.blue, Colors.indigo],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
+                  // ── Featured card ──────────────────────────────────────
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF1A2A8F), Color(0xFF2D3FBD)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      child: const Column(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Chip
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFF0E0),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            'FEATURED NOTICE',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFD97706),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Prepare for IOE Entrance 2024',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Exclusive prep materials and model sets now available for all engineering aspirants.',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // ── Quick action chips ─────────────────────────────────
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _quickChip(Icons.description_outlined, 'Notes'),
+                        const SizedBox(width: 10),
+                        _quickChip(Icons.help_outline, 'Past Questions'),
+                        const SizedBox(width: 10),
+                        _quickChip(Icons.play_circle_outline, 'Videos'),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // ── Section header ─────────────────────────────────────
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("FEATURED NOTICE",
-                              style: TextStyle(color: Colors.white70)),
-                          SizedBox(height: 8),
                           Text(
-                            "Prepare for IOE Entrance 2024",
+                            'First Semester',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: shDarkText,
+                            ),
+                          ),
+                          Text(
+                            'Bachelor of Engineering (IOE)',
+                            style: TextStyle(
+                              color: shGrey,
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    //quick action
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _quickButton("Notes"),
-                        _quickButton("Fast Questions"),
-                        _quickButton("More"),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    //section header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("First Semester",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18)),
-                            Text("Bachelor of Engineering (IOE)",
-                                style: TextStyle(color: Colors.grey)),
-                          ],
+                      Text(
+                        'View All',
+                        style: TextStyle(
+                          color: shPrimaryBlue,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
                         ),
-                        Text("View All",
-                            style: TextStyle(color: Colors.blue)),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
 
-                    const SizedBox(height: 16),
+                  const SizedBox(height: 14),
 
-                    //subject cards
-                    _subjectCard("Engineering Mathematics I",
-                        "Calculus, Analytical Geometry"),
-                    _subjectCard("Engineering Physics",
-                        "Optics, Nuclear Physics"),
-                    _subjectCard("Computer Programming",
-                        "C Programming Fundamentals"),
+                  // ── Subject cards ──────────────────────────────────────
+                  _subjectCard(
+                    code: 'SH101',
+                    icon: Icons.functions,
+                    iconBg: shLightBlue,
+                    title: 'Engineering Mathematics I',
+                    subtitle: 'Calculus, Analytical Geometry, and Vectors.',
+                    units: '8 Units',
+                    marks: '80 Marks',
+                  ),
+                  _subjectCard(
+                    code: 'SH102',
+                    icon: Icons.bolt,
+                    iconBg: shLightBlue,
+                    title: 'Engineering Physics',
+                    subtitle: 'Optics, Nuclear Physics, and Electromagnetism.',
+                    units: '12 Units',
+                    marks: '80 Marks',
+                  ),
+                  _subjectCard(
+                    code: 'CT101',
+                    icon: Icons.slideshow,
+                    iconBg: const Color(0xFFFFEBE5),
+                    title: 'Computer Programming',
+                    subtitle: 'C Programming Fundamentals and Logic.',
+                    units: '6 Units',
+                    marks: '80 Marks',
+                  ),
 
-                    const SizedBox(height: 20),
-
-                    //recommended reads
-                    const Text(
-                      "Recommended Reads",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Row(
+                  // ── Small list-style card ──────────────────────────────
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 12),
+                    decoration: shCardDecoration,
+                    child: Row(
                       children: [
-                        Expanded(child: _bookPlaceholder("Thomas' Calculus")),
-                        const SizedBox(width: 10),
-                        Expanded(child: _bookPlaceholder("Resnick & Halliday")),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey.shade200,
+                          child: const Icon(Icons.architecture,
+                              color: shGrey, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Engineering Drawing I',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: shDarkText,
+                                ),
+                              ),
+                              Text(
+                                'Practical Focused • SH103',
+                                style:
+                                    TextStyle(color: shGrey, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.chevron_right, color: shGrey),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ── Recommended Reads ──────────────────────────────────
+                  const Text(
+                    'Recommended Reads',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: shDarkText,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Row(
+                    children: [
+                      Expanded(child: _bookCard("Thomas' Calculus", '14th Edition')),
+                      const SizedBox(width: 12),
+                      Expanded(child: _bookCard('Resnick & Halliday', 'Physics Principles')),
+                    ],
+                  ),
+
+                  const SizedBox(height: 80), // space for FAB
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  //quick button widget
-  Widget _quickButton(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(text),
-    );
-  }
+  // ── Helpers ──────────────────────────────────────────────────────────────
 
-  //subject card
-  Widget _subjectCard(String title, String subtitle) {
+  Widget _quickChip(IconData icon, String label) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: shLightBlue,
+        borderRadius: BorderRadius.circular(30),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(title,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 4),
-          Text(subtitle, style: const TextStyle(color: Colors.grey)),
+          Icon(icon, size: 16, color: shPrimaryBlue),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: shPrimaryBlue,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  //book placeholder
-  Widget _bookPlaceholder(String title) {
+  Widget _subjectCard({
+    required String code,
+    required IconData icon,
+    required Color iconBg,
+    required String title,
+    required String subtitle,
+    required String units,
+    required String marks,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: shCardDecoration,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Icon box
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: iconBg,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: shPrimaryBlue, size: 22),
+          ),
+          const SizedBox(width: 12),
+          // Text content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: shDarkText,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  style:
+                      const TextStyle(color: shSubtitleText, fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.grid_view,
+                        size: 13, color: shGrey),
+                    const SizedBox(width: 4),
+                    Text(units,
+                        style: const TextStyle(
+                            fontSize: 12, color: shGrey)),
+                    const SizedBox(width: 12),
+                    const Icon(Icons.star_border,
+                        size: 13, color: shGrey),
+                    const SizedBox(width: 4),
+                    Text(marks,
+                        style: const TextStyle(
+                            fontSize: 12, color: shGrey)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Code badge
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
+              color: shLightBlue,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              code,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: shPrimaryBlue,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _bookCard(String title, String subtitle) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 100,
+          height: 120,
           decoration: BoxDecoration(
-            color: Colors.grey[300],
+            color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(12),
           ),
         ),
         const SizedBox(height: 6),
-        Text(title, overflow: TextOverflow.ellipsis),
+        Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            color: shDarkText,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          subtitle,
+          style: const TextStyle(fontSize: 11, color: shGrey),
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

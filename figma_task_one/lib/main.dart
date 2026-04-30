@@ -1,4 +1,5 @@
 import 'package:figma_task_one/screens/login_screen.dart';
+import 'package:figma_task_one/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,16 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'StudyHub Nepal',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: shPrimaryBlue),
+        fontFamily: 'Roboto',
+        scaffoldBackgroundColor: shBackground,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: LoginScreen(),
-        ),
-      ),
+      home: const LoginScreen(),
     );
   }
 }
-
